@@ -59,9 +59,17 @@ MENU → PLAYING → LEVEL_TRANSITION → PLAYING (loop)
 15. `HUD` — drawn last in screen space (after `ctx.restore()` undoes shake)
 16. `GAME LOOP` — `requestAnimationFrame`; `dt` capped at 50ms
 
-**Adding a new enemy type**: add an entry to `ENEMY_STATS`, add a sprite to `SP`, add AI branch in `updateEnemies`, add render branch in `renderEnemies`, add the type to wave specs in `LEVELS`.
+**Player controls**: WASD / arrow keys to move, mouse to aim, hold left-click to fire, R to reload manually. Auto-reload triggers when ammo hits 0.
 
-**Adding a new level**: append to `LEVELS[]` following the same shape: `{ waves, hpScale, speedScale, newThreat }`. Each wave is an array of `{ type, count, interval }` specs — one per enemy type, each with its own independent spawn timer.
+**Sprite conventions**:
+- `_` in a sprite string = transparent (skip draw)
+- `PAL{}` maps single-char keys to hex colors; add new chars there for new sprites
+- Walk-animation variants use a `_W` suffix (`SP.PLAYER_W`, `SP.GRUNT_W`, `SP.DASHER_W`). TANK has no walk variant. Toggle via `animFrame` (0/1) on the entity object
+- All sprites face RIGHT at `angle=0`; `drawSprite` rotates around the sprite center
+
+**Adding a new enemy type**: add an entry to `ENEMY_STATS`, add a sprite to `SP` (and optionally a `_W` walk variant), add an AI branch in `updateEnemies`, add a render branch in `renderEnemies`, add the type to wave specs in `LEVELS`.
+
+**Adding a new level**: append to `LEVELS[]` following the same shape: `{ waves, hpScale, speedScale, newThreat }`. Each wave is an array of `{ type, count, interval }` specs — one per enemy type, each with its own independent spawn timer. `getLevelConfig(idx)` is the accessor: it returns a hand-crafted level for idx 0–2, or calls `generateLevel(idx)` for idx 3+.
 
 **Tuning feel**: all gameplay numbers are in the `CONSTANTS` section at the top. Sprite pixel size is `PIXEL` (currently 4).
 
