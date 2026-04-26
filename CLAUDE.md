@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Repository
+
+**GitHub**: https://github.com/anupam74/browser-games  
+**Branch**: `main`
+
+After any meaningful change, commit and push:
+```
+git add <files>
+git commit -m "..."
+git push
+```
+
 ## How to Run
 
 All games are single HTML files — open directly in a browser, no server or build step needed:
